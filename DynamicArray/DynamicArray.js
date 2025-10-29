@@ -67,23 +67,59 @@ export default class DynamicArray {
   }
 
   remove(index) {
-     this.#_checkIndex(index);
+    this.#_checkIndex(index);
 
     for (let i = index; i < this.#size - 1; i++) {
-        this.#array[i] = this.#array[i + 1];
+      this.#array[i] = this.#array[i + 1];
     }
-
 
     this.#array[this.#size - 1] = undefined;
 
     this.#size--;
   }
 
-  clear(){
+  clear() {
     const newArray = new StaticArray();
     this.#size = 0;
     this.#array = newArray;
   }
+
+  addFirst(item) {
+    if (this.#size >= this.#capacity) {
+      this.grow();
+    }
+
+    for (let i = 0; i < this.#array.size; i++) {
+      this.#array[i] = this.#array[i + 1];
+    }
+    this.#array[0] = item;
+    this.#size++;
+  }
+
+  getFirst() {
+    return this.#array[0];
+  }
+
+  getLast() {
+    return this.#array[this.#size - 1];
+  }
+
+  removeFirst() {
+    this.remove(0);
+  }
+
+  removeLast() {
+    this.remove(this.#size - 1);
+  }
+
+  isEmpty() {
+    return this.#size === 0; 
+  }
+
+
+                                             //TODO Implement and write tests
+// - `addAll( items[] )` - modtager et array af elementer, og tilføjer dem alle til listen, udvider om nødvendigt
+// - `removeRange( startIndex, endIndex )` - fjerner alle elementer fra og med startIndex til lige før endIndex
 
   shrink() {}
 
