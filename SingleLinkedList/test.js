@@ -54,7 +54,7 @@ describe("SinglyLinkedList", function () {
   });
   describe("Adding a single data element", function () {
     const data = "A";
-    it("should have an add() method", function () {
+    it("should have an add(data) method", function () {
       list.add(data);
     });
     it("should add data by letting head point to it", function () {
