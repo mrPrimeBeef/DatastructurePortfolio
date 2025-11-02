@@ -5,68 +5,54 @@ export default class DoublyLinkedList {
 
   constructor() {
     this.head = null;
+    this.tail = null;
     this.#size = 0;
   }
+
   set(index, data) {
-    if (index < 0 || index >= this.#size) {
-      return false;
-    }
+    const targetNode = this.getNode(index);
+    const oldData = targetNode.data;
 
-    let current = this.head;
-    for (let i = 0; i < index; i++) {
-      current = current.next;
-    }
+    targetNode.data = data;
 
-    current.data = data;
-    return true;
+    return oldData;
   }
 
   size() {
-    this.#size = 0;
-    let current = this.head;
-
-    while (current) {
-      this.#size++;
-      current = current.next;
-    }
-
     return this.#size;
   }
 
-  add(data) {
+  addLast(data) {
     const newNode = new Node(data);
 
-    if (!this.head) {
+    if (this.tail === null) {
       this.head = newNode;
-      this.#size++;
-      return;
+      this.tail = newNode;
+    } else {
+      let current = this.tail;
+
+      current.next = newNode;
+      newNode.prev = current;
+
+      this.tail = newNode;
     }
-    let current = this.head;
-    while (current.next) {
-      current = current.next;
-    }
-    current.next = newNode;
     this.#size++;
   }
 
-  insert(index, data) {
+  addFirst(data) {
     const newNode = Node(data);
 
-    if (index === 0) {
-      newNode.next = this.head;
+    if (this.head === null) {
       this.head = newNode;
-      this.#size++;
-      return;
+      this.tail = newNode;
+    } else {
+      let current = this.head;
+
+      current.prev = newNode;
+      newNode.next = current;
+
+      this.head = newNode;
     }
-
-    let current = this.head;
-
-    for (let i = 0; i < index - 1; i++) {
-      current = current.next;
-    }
-
-    newNode.next = current.next;
-    current.next = newNode;
     this.#size++;
   }
 
@@ -78,20 +64,16 @@ export default class DoublyLinkedList {
     return this.head.data;
   }
   getLastNode() {
-    let current = this.head;
-
-    while (current.next) {
-      current = current.next;
-    }
-    return current;
+    return this.tail;
   }
 
   getLast() {
-    const lastNode = this.getLastNode();
-    return lastNode ? lastNode.data : null;
+    return this.tail.data;
   }
 
   getNode(index) {
+    this.checkIndex(index);
+
     let current = this.head;
     for (let i = 0; i < index; i++) {
       current = current.next;
@@ -109,80 +91,109 @@ export default class DoublyLinkedList {
   }
 
   getPreviousNode(node) {
-    if (!node || node === this.head) return null;
-    let current = this.head;
-    while (current && current.next !== node) {
-      current = current.next;
-    }
-    return current;
+    return node.prev;
   }
 
-  insertBefore(node, data) {
-    const newNode = Node(data);
+  insert(index, data) {
+    this.checkIndex();
 
-    if (this.head === node) {
-      newNode.next = this.head;
-      this.head = newNode;
-      this.#size++;
+    if (index === this.#size) {
+      this.addLast(data);
       return;
     }
 
-    let current = this.head;
-    while (current.next !== node) {
-      current = current.next;
+    if (index === 0) {
+      this.addFirst(data);
+      return;
     }
+    const targetNode = this.getNode(index);
+    const newNode = new Node(data);
 
+    newNode.next = targetNode;
+    newNode.prev = targetNode.prev;
+
+    targetNode.prev.next = newNode;
+    targetNode.prev = newNode;
+
+    this.#size++;
+  }
+
+  insertBeforeNode(node, data) {
+    if (node === null) {
+      return;
+    }
+    const newNode = new Node(data);
+
+    let temp = node.prev;
+
+    node.prev = newNode;
     newNode.next = node;
-    current.next = newNode;
+    newNode.prev = temp;
+
+    if (temp !== null) {
+      temp.next = newNode;
+    } else {
+      this.head = newNode;
+    }
     this.#size++;
   }
 
-  insertAfter(node, data) {
-    const newNode = Node(data);
-
-    let current = this.head;
-    while (current !== node) {
-      current = current.next;
+  insertAfterNode(node, data) {
+    if (node === null) {
+      return;
     }
+    const newNode = new Node(data);
 
-    newNode.next = current.next;
-    current.next = newNode;
+    let temp = node.next;
+
+    node.next = newNode;
+    newNode.prev = node;
+    newNode.next = temp;
+
+    if (temp !== null) {
+      temp.prev = newNode;
+    } else {
+      this.tail = newNode;
+    }
     this.#size++;
   }
-  removeNode(node) {
-    if (this.head === null) {
-      return null;
+
+  remove(index) {
+    this.checkIndex(index);
+
+    if (index === 0) {
+      return this.removeFirst();
     }
-    if (this.head === node) {
-      const data = this.head.data;
-      this.head = this.head.next;
-      this.#size--;
-      return data;
+    if (index === this.#size - 1) {
+      return this.removeLast();
     }
 
-    let current = this.head;
-    while (current.next !== null && current.next !== node) {
-      current = current.next;
-    }
+    let targetNode = this.getNode(index);
+    targetNode.prev.next = targetNode.next;
+    targetNode.next.prev = targetNode.prev;
 
-    if (current.next === null) {
-      return null;
-    }
+    targetNode.next = null;
+    targetNode.prev = null;
 
-    const data = current.next.data;
-    current.next = current.next.next;
     this.#size--;
-    return data;
+
+    return targetNode;
   }
 
   removeFirst() {
     if (this.head === null) {
       return null;
     }
-    const data = this.head;
-    this.head = this.head.next;
-    this.#size--;
-    return data;
+
+    if (this.head.next === null) {
+      this.clear();
+    } else {
+      const targetNode = this.head;
+      this.head = this.head.next;
+      this.head.prev = null;
+      this.#size--;
+      return targetNode;
+    }
   }
 
   removeLast() {
@@ -191,49 +202,42 @@ export default class DoublyLinkedList {
     }
 
     if (this.head.next === null) {
-      const data = this.head;
-      this.head = null;
+      this.clear();
+    } else {
+      const targetNode = this.tail;
+      this.tail = this.tail.prev;
+      this.tail.next = null;
       this.#size--;
-      return data;
+      return targetNode;
     }
-
-    let current = this.head;
-    while (current.next.next !== null) {
-      current = current.next;
-    }
-
-    const data = current.next.data;
-    current.next = null;
-    this.#size--;
-    return data;
   }
 
-  remove(index) {
-    if (this.head === null || index < 0 || index >= this.#size) {
+  removeNode(node) {
+    if (node === null) {
       return null;
     }
-
-    if (index === 0) {
-      const data = this.head.data;
-      this.head = this.head.next;
-      this.#size--;
-      return data;
+    if (this.head === node) {
+      this.removeFirst();
+      return;
+    }
+    if (this.tail === node) {
+      this.removeLast();
+      return;
     }
 
-    let current = this.head;
-    for (let i = 0; i < index - 1; i++) {
-      current = current.next;
-    }
+    node.prev.next = node.next;
+    node.next.prev = node.prev;
 
-    const data = current.next.data;
-    current.next = current.next.next;
+    node.next = null;
+    node.prev = null;
+
     this.#size--;
-    return data;
   }
 
   clear() {
     this.#size = 0;
     this.head = null;
+    this.tail = null;
   }
 
   printList() {
@@ -249,17 +253,17 @@ export default class DoublyLinkedList {
     console.log(output);
   }
 
-  // checkIndex(index) {
-  //   if (index < 0 || index >= this.#size) {
-  //     throw new RangeError("Index out of bounds");
-  //   }
-  // }
+  checkIndex(index) {
+    if (index < 0 || index >= this.#size) {
+      throw new RangeError("Index out of bounds");
+    }
+  }
 }
 
 function Node(data) {
   return {
     data: data,
     next: null,
-    previous: null,
+    prev: null,
   };
 }

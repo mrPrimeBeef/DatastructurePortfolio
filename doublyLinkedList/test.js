@@ -1,7 +1,7 @@
 import assert from "assert";
 import DoublyLinkedList from "./doublylinkedlist.js";
 
-describe("SinglyLinkedList", function () {
+describe("DoublyLinkedList", function () {
   const data1 = "A";
   const data2 = "B";
   const data3 = "C";
