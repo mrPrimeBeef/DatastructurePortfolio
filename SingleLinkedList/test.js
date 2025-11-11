@@ -20,41 +20,10 @@ describe("SinglyLinkedList", function () {
     it("should have a size() method that returns 0 when the list is empty", function () {
       assert.equal(list.size(), 0);
     });
-    it("should have a size() method that returns the number of nodes", function () {
-      const nodes = {
-        data: "A",
-        next: {
-          data: "B",
-          next: {
-            data: "C",
-            next: null,
-          },
-        },
-      };
-      list.head = nodes;
-
-      assert.equal(list.size(), 3);
-    });
-    it("should have a clear() method that makes the list empty", function () {
-      const nodes = {
-        data: "A",
-        next: {
-          data: "B",
-          next: {
-            data: "C",
-            next: null,
-          },
-        },
-      };
-      list.head = nodes;
-      assert.equal(list.size(), 3);
-      list.clear();
-      assert.equal(list.size(), 0);
-    });
   });
   describe("Adding a single data element", function () {
     const data = "A";
-    it("should have an add(data) method", function () {
+    it("should have an add() method", function () {
       list.add(data);
     });
     it("should add data by letting head point to it", function () {
@@ -386,6 +355,15 @@ describe("SinglyLinkedList", function () {
       assert.equal(list.get(0), data1);
       assert.equal(list.get(1), data3);
       assert.equal(node1.next, list.getLastNode());
+    });
+    it("should have a clear() method that makes the list empty", function () {
+      list.add(data1);
+      list.add(data2);
+      list.add(data3);
+
+      assert.equal(list.size(), 3);
+      list.clear();
+      assert.equal(list.size(), 0);
     });
   });
   describe("setting data", function () {
