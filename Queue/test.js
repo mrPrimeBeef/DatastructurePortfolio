@@ -19,21 +19,6 @@ describe("Queue", function () {
     it("should have a size() method that returns 0 when the list is empty", function () {
       assert.equal(queue.size(), 0);
     });
-    // it("should have a size() method that returns the number of nodes", function () {
-    //   const nodes = {
-    //     data: "A",
-    //     next: {
-    //       data: "B",
-    //       next: {
-    //         data: "C",
-    //         next: null,
-    //       },
-    //     },
-    //   };
-    //   queue.head = nodes;
-
-    //   assert.equal(queue.size(), 3);
-    // });
     it("should have a clear() method that makes the queue empty", function () {
       const input = "A";
       const input2 = "B";
