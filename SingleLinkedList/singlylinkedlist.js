@@ -21,15 +21,7 @@ export default class SinglyLinkedList {
   }
 
   size() {
-    this.#size = 0;
-    let current = this.head;
-
-    while (current) {
-      this.#size++;
-      current = current.next;
-    }
-
-    return this.#size;
+        return this.#size;
   }
 
   add(data) {
