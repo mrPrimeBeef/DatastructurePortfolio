@@ -93,7 +93,7 @@ describe("Stack", function () {
 
               let result = stack.peek();
 
-              assert.equal(result.data, input3);
+              assert.equal(result, input3);
             });
             it("should have an peek() method to look at the first element in the stack: with 1 elements", function () {
               const input = "A";
@@ -101,7 +101,7 @@ describe("Stack", function () {
 
               let result = stack.peek();
 
-              assert.equal(result.data, input);
+              assert.equal(result, input);
             });
             it("should have an peek() method to look at the first element in the stack: with 0 elements", function () {
 
@@ -121,7 +121,7 @@ describe("Stack", function () {
 
               let result = stack.get(1);
 
-              assert.equal(result.data, input2);
+              assert.equal(result, input2);
             });
             it("should have an get(index) method to get the index number element in the stack: with 1 elements", function () {
               const input = "A";
@@ -129,7 +129,7 @@ describe("Stack", function () {
 
               let result = stack.get(0);
 
-              assert.equal(result.data, input);
+              assert.equal(result, input);
             });
             it("should have an get(index) method to get the index number element in the stack: with 0 elements", function () {
 

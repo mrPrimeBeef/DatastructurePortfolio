@@ -129,7 +129,7 @@ describe("Queue", function () {
 
           let result = queue.get(1);
 
-          assert.equal(result.data, input2);
+          assert.equal(result, input2);
         });
         it("should have an get(index) method to get the index number element in the queue: with 1 elements", function () {
           const input = "A";
@@ -137,7 +137,7 @@ describe("Queue", function () {
 
           let result = queue.get(0);
 
-          assert.equal(result.data, input);
+          assert.equal(result, input);
         });
         it("should have an get(index) method to get the index number element in the queue: with 0 elements", function () {
           

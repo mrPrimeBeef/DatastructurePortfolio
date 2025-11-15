@@ -33,25 +33,28 @@ export default class Stack {
       let returnNode = this.head;
       this.head = returnNode.prev;
       this.#size--;
-      return returnNode;
+      return returnNode.data;
     } else {
       return null;
     }
   }
 
-  peek(){
-    return this.head;
+  peek() {
+    return this.head ? this.head.data : null;
   }
 
   get(index) {
-    let current = this.head;
-    for (let i = 0; i < index; i++) {
-      current = current.prev;
+    if (this.head) {
+      let current = this.head;
+      for (let i = 0; i < index; i++) {
+        current = current.prev;
+      }
+      return current.data;
+    } else {
+      return null;
     }
-    return current;
   }
 }
-
 function Node(data) {
   return {
     data: data,

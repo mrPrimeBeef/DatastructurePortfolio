@@ -38,7 +38,7 @@ export default class Queue {
 
   get(index) {
     const node = this.getNode(index);
-    return node ? node : null;
+    return node ? node.data : null;
   }
 
   getNode(index) {
@@ -60,7 +60,7 @@ export default class Queue {
       this.tail = null;
     }
     this.#size--;
-    return removalNode;
+    return removalNode.data;
   }
 
   clear() {
