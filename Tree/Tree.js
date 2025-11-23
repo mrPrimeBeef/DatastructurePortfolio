@@ -19,8 +19,10 @@ export default class Tree {
     }
     return newNode;
   }
-
+  // Queue (BFS): Søger niveau for niveau
+  // Stack (DFS): Søger dybt ned først
   findValue(value) {
+    //BFS
     const queue = [this.#_root];
 
     while (queue.length > 0) {
@@ -41,7 +43,7 @@ export default class Tree {
     const node = this.findValue(value);
     if (node) {
       node.parent.removeChild(node);
-    } else{
+    } else {
       return null;
     }
   }
