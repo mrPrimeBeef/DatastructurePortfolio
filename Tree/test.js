@@ -2,7 +2,7 @@ import assert from 'assert';
 import Tree from './tree.js';
 import nodeClass from './nodeClass.js';
 
-describe('nodeClass', function() {
+describe('Nodeclass', function() {
   describe('constructor', function() {
     it('should create a nodeClass with a value', function() {
       const node = new nodeClass('test');

@@ -12,25 +12,38 @@ export default class Tree {
 
   addValue(value) {
     const newNode = new nodeClass(value);
-    return this.#_root.appendChild(newNode);
+    if (this.#_root) {
+      this.#_root.appendChild(newNode);
+    } else {
+      this.#_root = newNode;
+    }
+    return newNode;
   }
 
-  // findValue(value) {
-  //   if (this.#_root.value == value) {
-  //     return this.#_root;
-  //   } else {
-  //     for (const child of this.#_root.childNodes) {
-  //       child = this.findValue(value);
-  //       if (child.value === value) {
-  //         return child;
-  //       }
-  //     }
-  //   }
-  // }
+  findValue(value) {
+    const queue = [this.#_root];
+
+    while (queue.length > 0) {
+      const node = queue.shift();
+
+      if (node.value === value) {
+        return node;
+      }
+      for (const child of node.childNodes) {
+        queue.push(child);
+      }
+    }
+
+    return null;
+  }
 
   removeValue(value) {
     const node = this.findValue(value);
-    node.parent.removeChild(node);
+    if (node) {
+      node.parent.removeChild(node);
+    } else{
+      return null;
+    }
   }
 
   dump() {
@@ -42,21 +55,3 @@ export default class Tree {
     }
   }
 }
-
-const tree = new Tree("rootNode");
-
-const node1 = new nodeClass("1");
-const node2 = new nodeClass("2");
-const node3 = new nodeClass("3");
-const node4 = new nodeClass("4");
-const node5 = new nodeClass("5");
-
-tree.root.appendChild(node1);
-tree.root.appendChild(node2);
-
-tree.root.firstChild().appendChild(node4);
-tree.root.firstChild().appendChild(node3);
-tree.root.firstChild().appendChild(node5);
-
-// console.log(tree.findValue("3")); 
-
