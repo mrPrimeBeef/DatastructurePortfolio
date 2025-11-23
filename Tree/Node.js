@@ -1,24 +1,69 @@
-export class Tree {
+export class Node {
   #_parent;
-  #_childNodes;
+  #_childNodes = [];
   #_value;
 
-  // - `parent` - som henviser til denne node’s eneste parent
-  // - `childNodes` - en liste over alle children denne node har
-  // - `value` - som indeholder denne node’s *data*
+  constructor(value, parent = null, childNodes = null) {
+    this.#_parent = parent;
+    this.#_childNodes = childNodes || [];
+    this.#_value = value;
+  }
 
-  constructor() {}
+  get value() {
+    return this.#_value;
+  }
 
-//   - `firstChild()` - der returnerer den første i listen af childNodes
-// - `lastChild()` - der returnerer den sidste i listen af childNodes
-// - `hasChildNodes()` - der fortæller hvorvidt den har childNodes eller ej
-// - `appendChild( child )` - der tilføjer child til listen af children
-// - `removeChild( child )` - der fjerner child fra listen af children
-// - `replaceChild( newChild, oldChild )` - der fjerner oldChild fra listen, og tilføjer newChild på dens plads
+  get childNodes() {
+    return this.#_childNodes;
+  }
 
-// For alle metoder gælder at de både skal opdatere parent og childNodes i alle berørte nodes.
+  get parent() {
+    return this.#_parent;
+  }
 
-// Du bestemmer selv om du vil lave metoder uden parametre som metoder eller getter-properties.
+  set parent(node) {
+    this.#_parent = node;
+  }
+
+  firstChild() {
+    return this.#_childNodes[0];
+  }
+
+  lastChild() {
+    return this.#_childNodes[this.#_childNodes.length - 1];
+  }
+
+  hasChildNodes() {
+    return this.#_childNodes?.length > 0;
+  }
+
+  appendChild(child) {
+    this.#_childNodes.push(child);
+    child.parent = this;
+  }
+
+  removeChild(child) {
+    this.#_childNodes = this.#_childNodes.filter((node) => node !== child);
+    child.parent = null;
+  }
+
+  replaceChild(newChild, oldChild) {
+    if (oldChild.parent.childNodes.length > 0) {
+      this.#_childNodes.push(newChild);
+      newChild.parent = oldChild.parent;
+
+      for (const child of oldChild.childNodes) {
+        newChild.appendChild(child);
+      }
+      this.removeChild(oldChild);
+    }
+  }
+  dump() {
+    for (const child of this.#_childNodes) {
+      console.log(child.value);
+      if (child.hasChildNodes()) {
+        child.dump();
+      }
+    }
+  }
 }
-
-
