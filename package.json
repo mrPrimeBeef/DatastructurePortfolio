@@ -11,6 +11,7 @@
   "author": "Peter Lind",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "^11.7.4"
+    "assert": "^2.1.0",
+    "mocha": "^11.7.5"
   }
 }
