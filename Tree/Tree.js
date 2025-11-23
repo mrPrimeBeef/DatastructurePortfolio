@@ -24,18 +24,16 @@ export default class Tree {
   findValue(value) {
     //BFS
     const queue = [this.#_root];
-
     while (queue.length > 0) {
-      const node = queue.shift();
-
+      let node = queue.shift();
       if (node.value === value) {
         return node;
-      }
-      for (const child of node.childNodes) {
-        queue.push(child);
+      } else {
+        for (const child of node.childNodes) {
+          queue.push(child);
+        }
       }
     }
-
     return null;
   }
 
