@@ -7,7 +7,7 @@ function start() {
   // buildTreeManually(root);
 
   // TODO when: the addItem function is working, comment these lines back in:
- 
+
   tree.addItem(30);
   tree.addItem(70);
   tree.addItem(20);
@@ -17,7 +17,6 @@ function start() {
   tree.addItem(45);
   tree.addItem(60);
   tree.addItem(80);
-
 }
 
 /* A temporary function to build a tree manually.
@@ -184,6 +183,7 @@ class BinaryTree {
         if (node.left == null) {
           newNode.parent = node;
           node.left = newNode;
+          this.maintain(newNode);
           break;
         } else {
           node = node.left;
@@ -192,11 +192,34 @@ class BinaryTree {
         if (node.right == null) {
           newNode.parent = node;
           node.right = newNode;
+          this.maintain(newNode);
           break;
         } else {
           node = node.right;
         }
       }
+    }
+  }
+
+  dfs(node) {
+    if (!node) {
+      return;
+    }
+    this.dfs(node.left);
+    console.log(node.item);
+    this.dfs(node.right);
+  }
+
+  updateHeight(node) {
+    let leftHeight = node.left ? node.left.height : -1;
+    let rightHeight = node.right ? node.right.height : -1;
+    node.height = Math.max(leftHeight, rightHeight) + 1;
+  }
+
+  maintain(node) {
+    this.updateHeight(node);
+    if (node.parent) {
+      this.maintain(node.parent);
     }
   }
 }
