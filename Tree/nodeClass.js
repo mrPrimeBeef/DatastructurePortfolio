@@ -44,8 +44,9 @@ export default class nodeClass {
 
   removeChild(child) {
     this.#_childNodes = this.#_childNodes.filter((node) => node !== child);
+    child.childNodes.parent = child.parent;
     child.parent = null;
-    //TODO write so that childs children is moved to parent
+  
   }
 
   replaceChild(newChild, oldChild) {
