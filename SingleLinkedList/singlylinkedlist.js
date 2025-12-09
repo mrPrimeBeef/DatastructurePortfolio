@@ -28,7 +28,6 @@ export default class SinglyLinkedList {
     const newNode = new Node(data);
 
     if (!this.head) {
-      newNode.next = this.head;
       this.head = newNode;
       
       this.#size++;

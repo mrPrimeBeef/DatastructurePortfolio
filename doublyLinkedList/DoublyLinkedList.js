@@ -95,7 +95,7 @@ export default class DoublyLinkedList {
   }
 
   insert(index, data) {
-    this.checkIndex();
+    this.checkIndex(index);
 
     if (index === this.#size) {
       this.addLast(data);

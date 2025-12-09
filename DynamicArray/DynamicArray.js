@@ -50,11 +50,9 @@ export default class DynamicArray {
   }
 
   insert(index, item) {
-    if (index < 0 || index > this.#size) {
-      throw new RangeError("Index out of bounds");
-    }
+   this.#_checkIndex(index);
 
-    if (this.#size >= this.#capacity) {
+    if (this.#size >= this.#capacity) { 
       this.grow();
     }
 
